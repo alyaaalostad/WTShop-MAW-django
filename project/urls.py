@@ -12,6 +12,9 @@ urlpatterns = [
 
     path('items/', views.ItemsList.as_view(), name="items-list"),
     path('item/<int:item_id>/', views.ItemDetail.as_view(), name="item-detail"),
+
+    path("register/", views.Register.as_view(), name="register"),
+   	
 ]
 
 if settings.DEBUG:
