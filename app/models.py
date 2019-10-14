@@ -7,6 +7,7 @@ class Item(models.Model):
 	title = models.CharField(max_length = 100)
 	description = models.TextField()
 	quantity = models.IntegerField()
+	price = models.DecimalField(max_digits=5, decimal_places=2)
 	# cart = models.IntegerField()
 	# owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'item')
 	# contact owner email & phone number
