@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    'app'
+    'app',
 ]
 
 
@@ -46,8 +46,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+
 
 ROOT_URLCONF = 'project.urls'
 
@@ -113,6 +112,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
