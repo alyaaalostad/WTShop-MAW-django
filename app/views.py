@@ -6,8 +6,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import (ListAPIView, RetrieveAPIView, CreateAPIView)
 
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
 from .models import Item, Profile
-from .serializers import (ItemSerializer, RegisterSerializer, ProfileSerializer)
+from .serializers import (ItemSerializer, RegisterSerializer, ProfileSerializer, 
+    MyTokenObtainPairSerializer)
 
 
 class ItemsList(ListAPIView):
@@ -17,6 +21,10 @@ class ItemsList(ListAPIView):
 
 class Register(CreateAPIView):
     serializer_class = RegisterSerializer
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 class UserProfile(APIView):

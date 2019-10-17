@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView
+
 from app import views
 
 from django.conf import settings
@@ -14,7 +14,7 @@ urlpatterns = [
     path('profile/', views.UserProfile.as_view(), name='user-profile'),
 
     path("register/", views.Register.as_view(), name="register"),
-    path('login/', TokenObtainPairView.as_view(), name='login'),
+    path('login/', views.MyTokenObtainPairView.as_view(), name='login'),
    	
 ]
 
