@@ -3,7 +3,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from django.contrib.auth.models import User
 
-from .models import Item, Profile
+from .models import Item, Profile, Order, ItemOrder
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -53,3 +53,23 @@ class ProfileSerializer(serializers.ModelSerializer):
         super().update(instance, validated_data)
         super(UserSerializer, user_serializer).update(instance.user,user_data)
         return instance
+
+class ItemOrderSerializer(serializers.ModelSerializer):
+    item = ItemSerializer();
+
+    class Meta: 
+        model = ItemOrder
+        fields = ["item", "quantity"]
+
+class OrderSerializer(serializers.ModelSerializer):
+    user = UserSerializer();
+    midorders = ItemOrderSerializer(many=True);
+
+    class Meta:
+        model = Order
+        fields = ["user", "midorders"]
+
+
+
+
+

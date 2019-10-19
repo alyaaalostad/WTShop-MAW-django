@@ -13,7 +13,23 @@ class Item(models.Model):
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 
 	def __str__(self):
-		return self.title 	
+		return self.title
+
+
+class Order(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'orders')
+
+	def __str__(self):
+		return self.item
+
+#Middle Man
+class ItemOrder(models.Model):
+	item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name = 'items')
+	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name = 'midorders')
+	quantity = models.IntegerField()
+
+	def __str__(self):
+		return self.item.title
 
 
 class Profile(models.Model):
