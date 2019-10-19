@@ -11,11 +11,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('items/', views.ItemsList.as_view(), name="items-list"),
+
+    path("checkout/", views.CheckoutCart.as_view(), name="chekout"),
     path('profile/', views.UserProfile.as_view(), name='user-profile'),
 
     path("register/", views.Register.as_view(), name="register"),
-    path('login/', views.MyTokenObtainPairView.as_view(), name='login'),
-   	
+    path('login/', views.MyTokenObtainPairView.as_view(), name='login'),   	
 ]
 
 if settings.DEBUG:
