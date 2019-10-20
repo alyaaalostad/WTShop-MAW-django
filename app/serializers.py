@@ -71,7 +71,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         super(UserSerializer, user_serializer).update(instance.user,user_data)
         return instance
 
-        
+
     def get_past_orders(self, obj):
         orders = Order.objects.filter(user=obj.user, date__lt=date.today())
         return OrderSerializer(orders, many=True).data
