@@ -9,22 +9,27 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 from .models import Item, Profile, Order, ItemOrder
-from .serializers import (ItemSerializer, RegisterSerializer, ProfileSerializer, 
-    MyTokenObtainPairSerializer, OrderSerializer)
+from .serializers import (
+    ItemSerializer, RegisterSerializer, ProfileSerializer, 
+    MyTokenObtainPairSerializer, OrderSerializer
+)
+
 
 class CheckoutCart(APIView):
     def post(self, request):
         cart = request.data
         order = Order.objects.create(user=request.user)
-        for item_order in cart:
-            ItemOrder.objects.create(
-                item_id = item_order["item"],
-                order = order,
-                quantity = item_order["quantity"]
-            )
-        serializer_class = OrderSerializer(order)
+        try:
+            for item_order in cart:
+                ItemOrder.objects.create(
+                    item_id = item_order["item"],
+                    order = order,
+                    quantity = item_order["quantity"]
+                )
+            serializer_class = OrderSerializer(order)
+        except:
+            return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer_class.data,status=status.HTTP_200_OK)
-        return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

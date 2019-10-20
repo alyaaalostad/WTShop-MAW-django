@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 
 class Item(models.Model):
-	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'owner')
+	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'items')
 	image = models.ImageField()
 	title = models.CharField(max_length = 100)
 	description = models.TextField()
@@ -24,16 +24,17 @@ class Order(models.Model):
 
 #Middle Man
 class ItemOrder(models.Model):
-	item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name = 'items')
-	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name = 'midorders')
+	item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name = 'item_orders')
+	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name = 'item_orders')
 	quantity = models.IntegerField()
+	total= models.IntegerField()
 
 	def __str__(self):
 		return self.item.title
 
 
 class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name = 'profile')
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	image = models.ImageField(blank=True, null=True)
 	number = models.CharField(max_length=8)
 	bio = models.TextField()
