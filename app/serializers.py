@@ -40,6 +40,23 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 
+class ItemOrderSerializer(serializers.ModelSerializer):
+    item = ItemSerializer()
+
+    class Meta: 
+        model = ItemOrder
+        fields = ["item", "quantity"]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    item_orders = ItemOrderSerializer(many=True);
+
+    class Meta:
+        model = Order
+        fields = ["user", "item_orders"]
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
@@ -54,22 +71,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         super(UserSerializer, user_serializer).update(instance.user,user_data)
         return instance
 
-class ItemOrderSerializer(serializers.ModelSerializer):
-    item = ItemSerializer();
-
-    class Meta: 
-        model = ItemOrder
-        fields = ["item", "quantity"]
-
-class OrderSerializer(serializers.ModelSerializer):
-    user = UserSerializer();
-    midorders = ItemOrderSerializer(many=True);
-
-    class Meta:
-        model = Order
-        fields = ["user", "midorders"]
-
-
+        
+    def get_past_orders(self, obj):
+        orders = Order.objects.filter(user=obj.user, date__lt=date.today())
+        return OrderSerializer(orders, many=True).data
 
 
 
