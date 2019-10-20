@@ -55,14 +55,14 @@ class ProfileSerializer(serializers.ModelSerializer):
         return instance
 
 class ItemOrderSerializer(serializers.ModelSerializer):
-    item = ItemSerializer();
+    item = ItemSerializer()
 
     class Meta: 
         model = ItemOrder
         fields = ["item", "quantity"]
 
 class OrderSerializer(serializers.ModelSerializer):
-    user = UserSerializer();
+    user = UserSerializer()
     midorders = ItemOrderSerializer(many=True);
 
     class Meta:

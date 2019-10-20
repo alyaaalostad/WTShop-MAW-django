@@ -24,6 +24,8 @@ class CheckoutCart(APIView):
             )
         serializer_class = OrderSerializer(order)
         return Response(serializer_class.data,status=status.HTTP_200_OK)
+        return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class ItemsList(ListAPIView):
