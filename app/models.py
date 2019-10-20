@@ -18,6 +18,7 @@ class Item(models.Model):
 
 class Order(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'orders')
+	total= models.IntegerField()
 
 	def __str__(self):
 		return self.item
@@ -27,7 +28,7 @@ class ItemOrder(models.Model):
 	item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name = 'item_orders')
 	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name = 'item_orders')
 	quantity = models.IntegerField()
-	total= models.IntegerField()
+
 
 	def __str__(self):
 		return self.item.title
