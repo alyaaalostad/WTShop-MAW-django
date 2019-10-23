@@ -15,22 +15,23 @@ from .serializers import (
 )
 
 
-class CheckoutCart(APIView):
-    def post(self, request):
-        cart = request.data
-        order = Order.objects.create(user=request.user)
-        try:
-            for item_order in cart:
-                ItemOrder.objects.create(
-                    item_id = item_order["item"],
-                    order = order,
-                    quantity = item_order["quantity"]
-                )
-            serializer_class = OrderSerializer(order)
-        except:
-            return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer_class.data,status=status.HTTP_200_OK)
+from datetime import datetime
 
+   
+class CheckoutCart(APIView):
+   def post(self, request):
+       cart = request.data
+       order = Order.objects.create(user=request.user, 
+        date=datetime.today().strftime('%Y-%m-%d'))
+       for item_order in cart:
+           print(item_order)
+           ItemOrder.objects.create(
+               item_id = item_order["item"],
+               order = order,
+               quantity = item_order["quantity"]
+           )
+       serializer_class = OrderSerializer(order)
+       return Response(serializer_class.data,status=status.HTTP_200_OK)    
 
 
 class ItemsList(ListAPIView):
@@ -51,7 +52,7 @@ class UserProfile(APIView):
 
     def get(self, request):
         profile = Profile.objects.get(user=self.request.user)
-        serializer_class = ProfileSerializer(profile)
+        serializer_class = ProfileSerializer(profile, context={"request": request})
         return Response(serializer_class.data, status = status.HTTP_200_OK)
 
     def put(self, request):

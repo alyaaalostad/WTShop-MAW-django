@@ -54,15 +54,17 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ["user", "item_orders"]
+        fields = ["id", "user", "item_orders", "date", "total"]
+
 
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+    past_orders = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Profile
-        fields = ["user", "number", "bio", "image"]
+        fields = ["user", "number", "bio", "image", "past_orders"]
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user')
@@ -71,10 +73,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         super(UserSerializer, user_serializer).update(instance.user,user_data)
         return instance
 
-
     def get_past_orders(self, obj):
-        orders = Order.objects.filter(user=obj.user, date__lt=date.today())
+        orders = obj.user.orders.all()
         return OrderSerializer(orders, many=True).data
-
-
-
